@@ -19,7 +19,7 @@ $(document).ready(function() {
   var createleagueplayersForm = $("form.createleagueplayers");
   var leagueName;
   var leaguePlayersArray = [];
-  
+
   // When the form is submitted, we validate there's an email and password entered
   createLeagueForm.on("submit", function(event) {
     event.preventDefault();
@@ -41,7 +41,7 @@ $(document).ready(function() {
     // console.log(playerNameArray);
     for (var i = 0; i < playerNameArray.length; i++) {
       // console.log(playerNameArray[i].value.trim());
-      if (playerNameArray[i].value.trim() !== "") 
+      if (playerNameArray[i].value.trim() !== "")
         leaguePlayersArray[i] = playerNameArray[i].value.trim();
     }
     console.log(leaguePlayersArray);
@@ -66,7 +66,7 @@ $(document).ready(function() {
     }
 
 
-  
+
 
 
 
