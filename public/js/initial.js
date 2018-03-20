@@ -7,8 +7,9 @@ $(document).ready(function() {
 
     $.get("/api/user_data").then(function(data) {
       $(".member-name").text(data.email);
-      console.log(data)
+      console.log("DATA", data)
       userData = data.id;
+      getLeagueData(userData);
     });
 
     // var leagueForm = $("#league");
@@ -19,11 +20,24 @@ $(document).ready(function() {
     var gameSize = [];
     var notPlaying = [];
 
-    getLeagueData(userData);
-
     var url = window.location.search;
     var gameId;
 
+    // get data of league that matches userId in the Leagues Table
+    function getLeagueData(id) {
+      console.log("GetLeague", id);
+      $.get("/api/leagues/" + id).then(function(dataObj){
+        getPlayerData(dataObj);
+      });
+    }
+
+    // get all players where LeagueId matches id of league
+    function getPlayerData(leagueInfo) {
+      leagueData = leagueInfo;
+      console.log("leagueData", leagueData);
+      leagueId = leagueData.id;
+      $.get("/api/gameInfo/" + leagueId, renderPlayerList);
+    }
 
     $(".addPlayer").click("#name", function() {
       console.log("NEW PLAYER")
@@ -48,18 +62,9 @@ $(document).ready(function() {
       });
     };
 
-    // get data of league that matches userId in the Leagues Table
-    function getLeagueData(id) {
-      $.get("/api/leagues/" + id, getPlayerData);
-    }
 
-    // get all players where LeagueId matches id of league
-    function getPlayerData(leagueInfo) {
-      leagueData = leagueInfo;
-      console.log(leagueData);
-      leagueId = leagueData.id;
-      $.get("/api/gameInfo/" + leagueId, renderPlayerList);
-    }
+
+
 
 //=============== DYNAMIC PLAYERLIST CREATION ===========
     function renderPlayerList(data) {
